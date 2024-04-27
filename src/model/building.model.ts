@@ -17,6 +17,16 @@ class Building extends Model {
   public fid!: number;
   public buildingId!: string;
   public floors!: number;
+  public Opening!: Opening;
+  public StructuralSystem!: StructuralSystem;
+  public WallCovering!: WallCovering;
+  public RoofCovering!: RoofCovering;
+  public UseType!: UseType;
+  public CurrentState!: CurrentState;
+  public ConservationLevel!: ConservationLevel;
+  public ArchitectonicAdequacy!: ArchitectonicAdequacy;
+  public FacadeTypology!: FacadeTypology;
+  public Interventions!: Intervention[];
 }
 
 Building.init(

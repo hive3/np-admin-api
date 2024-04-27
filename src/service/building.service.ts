@@ -43,7 +43,7 @@ class BuildingService {
         await BuildingIntervention.bulkCreate(records);
       }
 
-      const result = await Building.findByPk(building.id, {include: { all: true, nested: true }})
+      const result = await Building.findByPk(building.id, {include: { all: true }})
       res.status(201).json(result);
     } catch (error) {
       res.status(500).json({ error: 'Failed to create building' });
@@ -53,7 +53,7 @@ class BuildingService {
   async getBuildingById(req: Request, res: Response) {
     try {
       const id = parseInt(req.params.id, 10);
-      const building = await Building.findByPk(id, { include: { all: true, nested: true } });
+      const building = await Building.findByPk(id, { include: { all: true } });
       if (building) {
         res.status(200).json(building);
       } else {
@@ -69,8 +69,8 @@ class BuildingService {
       const pagination = this.setPagination(req);
       const count = await Building.count(); 
       const result = await Building.findAll({ 
-        ...pagination, 
-        include: { all: true, nested: true } 
+        ...pagination,
+        include: { all: true } 
       });
       if (result) {
         this.setResponseHeaders(req, res, count);
@@ -121,7 +121,7 @@ class BuildingService {
           BuildingId: {
             [Op.eq]: buildingId,
           }
-         } });
+         }, include: { all: true } });
         if (buildingInterventions) {
           await BuildingIntervention.destroy({ where: { BuildingId: buildingId } });          
         }
@@ -151,6 +151,35 @@ class BuildingService {
       }
     } catch (error) {
       res.status(500).json({ error: 'Failed to delete building' });
+    }
+  }
+
+  async getUnrealBuildingData(req: Request, res: Response) {
+    try {
+      const buildings = await Building.findAll({where:{ fid: { [Op.not]: null } }, include: { all: true } });
+      if (buildings.length > 0) {
+        const response = buildings.map(b=> this.parseBuildingToUnrealData(b));
+        res.status(200).json(response);
+      } else {
+        res.status(404).json({ error: 'Buildings unreal not found' });
+      }
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to retrieve buildings unreal' });
+    }
+  }
+
+  async getUnrealBuildingDataByFid(req: Request, res: Response) {
+    try {
+      const fid = parseInt(req.params.fid, 10);
+      const building = await Building.findOne({where:{ fid: { [Op.eq]: fid } }, include: { all: true } });
+      if (building) {
+        const response = this.parseBuildingToUnrealData(building);
+        res.status(200).json(response);
+      } else {
+        res.status(404).json({ error: 'Building unreal not found' });
+      }
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to retrieve building unreal' });
     }
   }
 
@@ -190,6 +219,39 @@ class BuildingService {
   interventionsHasChanged(buildingInterventions: BuildingIntervention[], interventions:number[]) {
     return buildingInterventions && 
       buildingInterventions.filter(bi => !interventions.includes(bi.InterventionId)).length > 0;
+  }
+
+  parseBuildingToUnrealData(building: Building) {
+    const { 
+      fid, 
+      buildingId, 
+      floors, 
+      Opening, 
+      StructuralSystem,
+      WallCovering,
+      RoofCovering,
+      UseType,
+      CurrentState,
+      ConservationLevel,
+      ArchitectonicAdequacy,
+      FacadeTypology,
+      Interventions = [],
+    } = building;
+    return { 
+      fid, 
+      buildingId, 
+      floors,  
+      opening: Opening?.description,
+      structuralSystem: StructuralSystem?.description,
+      wallCovering: WallCovering?.description,
+      roofCovering: RoofCovering?.description,
+      useType: UseType?.description,
+      currentState: CurrentState?.description,
+      conservationLevel: ConservationLevel?.description,
+      architectonicAdequacy: ArchitectonicAdequacy?.description,
+      facadeTypology: FacadeTypology?.description,
+      interventions: Interventions.length > 0 ? Interventions.map(i => i.description) : Interventions,
+    }
   }
 }
 
