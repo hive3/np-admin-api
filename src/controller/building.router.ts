@@ -25,7 +25,7 @@ router.delete('/buildings/:id', async (req: Request, res: Response) => {
 });
 
 router.get('/unreal/buildings', async (req: Request, res: Response) => {
-  service.getUnrealBuildingData(req, res);
+  service.getUnrealBuildingsData(req, res);
 });
 
 router.get('/unreal/buildings/:fid', async (req: Request, res: Response) => {

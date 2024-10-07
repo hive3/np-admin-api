@@ -1,13 +1,12 @@
 import { Request, Response } from 'express';
 import Building from '../model/building.model';
 import BuildingIntervention from '../model/building-intervention.model';
-import { Op } from 'sequelize';
+import { Op, WhereOptions } from 'sequelize';
 
 class BuildingService {
-
   async createBuilding(req: Request, res: Response) {
     try {
-      const { 
+      const {
         ArchitectonicAdequacyId,
         ConservationLevelId,
         CurrentStateId,
@@ -20,7 +19,7 @@ class BuildingService {
         buildingId,
         fid,
         floors,
-        interventions
+        interventions,
       } = req.body;
 
       const building = await Building.create({
@@ -39,11 +38,16 @@ class BuildingService {
       });
 
       if (interventions) {
-        const records = this.getBuildingInterventions(buildingId,  interventions);
+        const records = this.getBuildingInterventions(
+          buildingId,
+          interventions
+        );
         await BuildingIntervention.bulkCreate(records);
       }
 
-      const result = await Building.findByPk(building.id, {include: { all: true }})
+      const result = await Building.findByPk(building.id, {
+        include: { all: true },
+      });
       res.status(201).json(result);
     } catch (error) {
       res.status(500).json({ error: 'Failed to create building' });
@@ -53,7 +57,9 @@ class BuildingService {
   async getBuildingById(req: Request, res: Response) {
     try {
       const id = parseInt(req.params.id, 10);
-      const building = await Building.findByPk(id, { include: { all: true } });
+      const building = await Building.findByPk(id, {
+        include: { all: true },
+      });
       if (building) {
         res.status(200).json(building);
       } else {
@@ -67,10 +73,10 @@ class BuildingService {
   async getBuildings(req: Request, res: Response) {
     try {
       const pagination = this.setPagination(req);
-      const count = await Building.count(); 
-      const result = await Building.findAll({ 
+      const count = await Building.count();
+      const result = await Building.findAll({
         ...pagination,
-        include: { all: true } 
+        include: { all: true },
       });
       if (result) {
         this.setResponseHeaders(req, res, count);
@@ -86,7 +92,7 @@ class BuildingService {
   async updateBuilding(req: Request, res: Response) {
     try {
       const id = parseInt(req.params.id, 10);
-      const { 
+      const {
         fid,
         floors,
         buildingId,
@@ -99,33 +105,45 @@ class BuildingService {
         CurrentStateId,
         ArchitectonicAdequacyId,
         FacadeTypologyId,
-        interventions
+        interventions,
       } = req.body;
 
-      const [updatedRows] = await Building.update({ 
-        fid,
-        floors,
-        StructuralSystemId,
-        OpeningId,
-        WallCoveringId,
-        RoofCoveringId,
-        UseTypeId,
-        ConservationLevelId,
-        CurrentStateId,
-        ArchitectonicAdequacyId,
-        FacadeTypologyId,
-       }, { where: { id } });
+      const [updatedRows] = await Building.update(
+        {
+          fid,
+          floors,
+          StructuralSystemId,
+          OpeningId,
+          WallCoveringId,
+          RoofCoveringId,
+          UseTypeId,
+          ConservationLevelId,
+          CurrentStateId,
+          ArchitectonicAdequacyId,
+          FacadeTypologyId,
+        },
+        { where: { id } }
+      );
 
       if (interventions) {
-        const buildingInterventions = await BuildingIntervention.findAll({ where: { 
-          BuildingId: {
-            [Op.eq]: buildingId,
-          }
-         }, include: { all: true } });
+        const buildingInterventions =
+          await BuildingIntervention.findAll({
+            where: {
+              BuildingId: {
+                [Op.eq]: buildingId,
+              },
+            },
+            include: { all: true },
+          });
         if (buildingInterventions) {
-          await BuildingIntervention.destroy({ where: { BuildingId: buildingId } });          
+          await BuildingIntervention.destroy({
+            where: { BuildingId: buildingId },
+          });
         }
-        const records = this.getBuildingInterventions(buildingId,  interventions);
+        const records = this.getBuildingInterventions(
+          buildingId,
+          interventions
+        );
         await BuildingIntervention.bulkCreate(records);
       }
 
@@ -133,7 +151,9 @@ class BuildingService {
         const updatedBuilding = await Building.findByPk(id);
         res.status(200).json(updatedBuilding);
       } else {
-        res.status(404).json({ error: 'Building not found or update failed' });
+        res
+          .status(404)
+          .json({ error: 'Building not found or update failed' });
       }
     } catch (error) {
       res.status(500).json({ error: 'Failed to update building' });
@@ -147,31 +167,85 @@ class BuildingService {
       if (deletedRows > 0) {
         res.status(204).end();
       } else {
-        res.status(404).json({ error: 'Building not found or deletion failed' });
+        res
+          .status(404)
+          .json({ error: 'Building not found or deletion failed' });
       }
     } catch (error) {
       res.status(500).json({ error: 'Failed to delete building' });
     }
   }
 
-  async getUnrealBuildingData(req: Request, res: Response) {
+  async getUnrealBuildingsData(req: Request, res: Response) {
     try {
-      const buildings = await Building.findAll({where:{ fid: { [Op.not]: null } }, include: { all: true } });
+      const queryParams = [
+        'floors',
+        'OpeningId',
+        'StructuralSystemId',
+        'WallCoveringId',
+        'RoofCoveringId',
+        'UseTypeId',
+        'CurrentStateId',
+        'ConservationLevelId',
+        'ArchitectonicAdequacyId',
+        'FacadeTypologyId',
+      ];
+
+      const whereInit: WhereOptions<any> = {
+        fid: { [Op.not]: null },
+      };
+
+      const where: WhereOptions<any> = queryParams.reduce(
+        (res, p) => {
+          const param = req.query[p];
+          if (param) {
+            res[p] = { [Op.in]: [...param.toString().split(',')] };
+          }
+          return res;
+        },
+        { ...whereInit }
+      );
+
+      const buildings = await Building.findAll({
+        where,
+        include: { all: true },
+      });
+
       if (buildings.length > 0) {
-        const response = buildings.map(b=> this.parseBuildingToUnrealData(b));
+        const interventions = req.query.interventions
+          ? [...req.query.interventions.toString().split(',')]
+          : req.query.interventions === ''
+          ? []
+          : undefined;
+        const response = buildings
+          .filter(
+            (b) =>
+              !interventions ||
+              (interventions.length === 0 &&
+                b.Interventions.length === 0) ||
+              b.Interventions.some((i) =>
+                interventions.includes(i.id.toString())
+              )
+          )
+          .map((b) => this.parseBuildingToUnrealData(b));
         res.status(200).json(response);
       } else {
-        res.status(404).json({ error: 'Buildings unreal not found' });
+        res.status(404).json({ error: 'Unreal Building not found' });
       }
     } catch (error) {
-      res.status(500).json({ error: 'Failed to retrieve buildings unreal' });
+      res
+        .status(500)
+        .json({ error: 'Failed to retrieve Unreal building' });
     }
   }
 
   async getUnrealBuildingDataByFid(req: Request, res: Response) {
     try {
       const fid = parseInt(req.params.fid, 10);
-      const building = await Building.findOne({where:{ fid: { [Op.eq]: fid } }, include: { all: true } });
+      const building = await Building.findOne({
+        where: { fid: { [Op.eq]: fid } },
+        include: { all: true },
+      });
       if (building) {
         const response = this.parseBuildingToUnrealData(building);
         res.status(200).json(response);
@@ -179,28 +253,37 @@ class BuildingService {
         res.status(404).json({ error: 'Building unreal not found' });
       }
     } catch (error) {
-      res.status(500).json({ error: 'Failed to retrieve building unreal' });
+      res
+        .status(500)
+        .json({ error: 'Failed to retrieve building unreal' });
     }
   }
 
-  setResponseHeaders(req:Request, res: Response, total: Number) {
-    if(req.headers.range) {
+  setResponseHeaders(req: Request, res: Response, total: Number) {
+    if (req.headers.range) {
       const range = req.headers.range;
-      const [partialStart = '0', partialEnd] = range.replace(/buildings=/, "").split("-");
+      const [partialStart = '0', partialEnd] = range
+        .replace(/buildings=/, '')
+        .split('-');
       const start = parseInt(partialStart, 10);
       const end = partialEnd ? parseInt(partialEnd, 10) : total;
-      res.setHeader('Content-Range', `buildings ${start}-${end}/${total}`);
+      res.setHeader(
+        'Content-Range',
+        `buildings ${start}-${end}/${total}`
+      );
       res.setHeader('Accept-Ranges', 'buildings');
     }
   }
 
-  setPagination(req: Request, ) {
-    if(req.headers.range) {
+  setPagination(req: Request) {
+    if (req.headers.range) {
       const range = req.headers.range;
-      const [partialStart = '0', partialEnd] = range.replace(/buildings=/, "").split("-");
+      const [partialStart = '0', partialEnd] = range
+        .replace(/buildings=/, '')
+        .split('-');
       const start = parseInt(partialStart, 10);
       const end = partialEnd ? parseInt(partialEnd, 10) : 10;
-      const { sort, filter}:any = req.query;
+      const { sort, filter }: any = req.query;
       const order = sort ? [JSON.parse(sort)] : [];
       return {
         order,
@@ -208,25 +291,37 @@ class BuildingService {
         offset: start,
       };
     }
-    return {};    
+    return {};
   }
 
-  getBuildingInterventions(buildingId: string, interventions:number[]) {
-    return interventions.map((i: number) => 
-      ({ BuildingId: buildingId,  InterventionId: i }));
+  getBuildingInterventions(
+    buildingId: string,
+    interventions: number[]
+  ) {
+    return interventions.map((i: number) => ({
+      BuildingId: buildingId,
+      InterventionId: i,
+    }));
   }
 
-  interventionsHasChanged(buildingInterventions: BuildingIntervention[], interventions:number[]) {
-    return buildingInterventions && 
-      buildingInterventions.filter(bi => !interventions.includes(bi.InterventionId)).length > 0;
+  interventionsHasChanged(
+    buildingInterventions: BuildingIntervention[],
+    interventions: number[]
+  ) {
+    return (
+      buildingInterventions &&
+      buildingInterventions.filter(
+        (bi) => !interventions.includes(bi.InterventionId)
+      ).length > 0
+    );
   }
 
   parseBuildingToUnrealData(building: Building) {
-    const { 
-      fid, 
-      buildingId, 
-      floors, 
-      Opening, 
+    const {
+      fid,
+      buildingId,
+      floors,
+      Opening,
       StructuralSystem,
       WallCovering,
       RoofCovering,
@@ -237,10 +332,10 @@ class BuildingService {
       FacadeTypology,
       Interventions = [],
     } = building;
-    return { 
-      fid, 
-      buildingId, 
-      floors,  
+    return {
+      fid,
+      buildingId,
+      floors,
       opening: Opening?.description,
       structuralSystem: StructuralSystem?.description,
       wallCovering: WallCovering?.description,
@@ -250,8 +345,11 @@ class BuildingService {
       conservationLevel: ConservationLevel?.description,
       architectonicAdequacy: ArchitectonicAdequacy?.description,
       facadeTypology: FacadeTypology?.description,
-      interventions: Interventions.length > 0 ? Interventions.map(i => i.description) : Interventions,
-    }
+      interventions:
+        Interventions.length > 0
+          ? Interventions.map((i) => i.description)
+          : Interventions,
+    };
   }
 }
 
