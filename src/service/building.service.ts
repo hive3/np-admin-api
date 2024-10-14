@@ -212,9 +212,9 @@ class BuildingService {
       });
 
       if (buildings.length > 0) {
-        const interventions = req.query.interventions
-          ? [...req.query.interventions.toString().split(',')]
-          : req.query.interventions === ''
+        const interventions = req.query.Interventions
+          ? [...req.query.Interventions.toString().split(',')]
+          : req.query.Interventions === ''
           ? []
           : undefined;
         const response = buildings
