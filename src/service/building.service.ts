@@ -176,47 +176,49 @@ class BuildingService {
     }
   }
 
+  async getBuildingsByFilters(req: Request, res: Response) {
+    const queryParams = [
+      'floors',
+      'OpeningId',
+      'StructuralSystemId',
+      'WallCoveringId',
+      'RoofCoveringId',
+      'UseTypeId',
+      'CurrentStateId',
+      'ConservationLevelId',
+      'ArchitectonicAdequacyId',
+      'FacadeTypologyId',
+    ];
+
+    const whereInit: WhereOptions<any> = {
+      fid: { [Op.not]: null },
+    };
+
+    const where: WhereOptions<any> = queryParams.reduce(
+      (res, p) => {
+        const param = req.query[p];
+        if (param) {
+          res[p] = { [Op.in]: [...param.toString().split(',')] };
+        }
+        return res;
+      },
+      { ...whereInit }
+    );
+
+    return await Building.findAll({
+      where,
+      include: { all: true },
+    });
+  }
+
   async getUnrealBuildingsData(req: Request, res: Response) {
     try {
-      const queryParams = [
-        'floors',
-        'OpeningId',
-        'StructuralSystemId',
-        'WallCoveringId',
-        'RoofCoveringId',
-        'UseTypeId',
-        'CurrentStateId',
-        'ConservationLevelId',
-        'ArchitectonicAdequacyId',
-        'FacadeTypologyId',
-      ];
-
-      const whereInit: WhereOptions<any> = {
-        fid: { [Op.not]: null },
-      };
-
-      const where: WhereOptions<any> = queryParams.reduce(
-        (res, p) => {
-          const param = req.query[p];
-          if (param) {
-            res[p] = { [Op.in]: [...param.toString().split(',')] };
-          }
-          return res;
-        },
-        { ...whereInit }
+      const buildings: Building[] = await this.getBuildingsByFilters(
+        req,
+        res
       );
-
-      const buildings = await Building.findAll({
-        where,
-        include: { all: true },
-      });
-
       if (buildings.length > 0) {
-        const interventions = req.query.Interventions
-          ? [...req.query.Interventions.toString().split(',')]
-          : req.query.Interventions === ''
-          ? []
-          : undefined;
+        const interventions = this.filterInterventions(req);
         const response = buildings
           .filter(
             (b) =>
@@ -229,6 +231,36 @@ class BuildingService {
           )
           .map((b) => this.parseBuildingToUnrealData(b));
         res.status(200).json(response);
+      } else {
+        res.status(404).json({ error: 'Unreal Building not found' });
+      }
+    } catch (error) {
+      res
+        .status(500)
+        .json({ error: 'Failed to retrieve Unreal building' });
+    }
+  }
+
+  async getUnrealBuildingsFidData(req: Request, res: Response) {
+    try {
+      const buildings: Building[] = await this.getBuildingsByFilters(
+        req,
+        res
+      );
+      if (buildings.length > 0) {
+        const interventions = this.filterInterventions(req);
+        const response = buildings
+          .filter(
+            (b) =>
+              !interventions ||
+              (interventions.length === 0 &&
+                b.Interventions.length === 0) ||
+              b.Interventions.some((i) =>
+                interventions.includes(i.id.toString())
+              )
+          )
+          .map((b) => b.fid);
+        res.status(200).json({ response });
       } else {
         res.status(404).json({ error: 'Unreal Building not found' });
       }
@@ -314,6 +346,14 @@ class BuildingService {
         (bi) => !interventions.includes(bi.InterventionId)
       ).length > 0
     );
+  }
+
+  filterInterventions(req: Request) {
+    return req.query.Interventions
+      ? [...req.query.Interventions.toString().split(',')]
+      : req.query.Interventions === ''
+      ? []
+      : undefined;
   }
 
   parseBuildingToUnrealData(building: Building) {

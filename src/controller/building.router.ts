@@ -20,16 +20,29 @@ router.put('/buildings/:id', async (req: Request, res: Response) => {
   service.updateBuilding(req, res);
 });
 
-router.delete('/buildings/:id', async (req: Request, res: Response) => {
-  service.deleteBuilding(req, res);
+router.delete(
+  '/buildings/:id',
+  async (req: Request, res: Response) => {
+    service.deleteBuilding(req, res);
+  }
+);
+
+router.get(
+  '/unreal/buildings',
+  async (req: Request, res: Response) => {
+    service.getUnrealBuildingsData(req, res);
+  }
+);
+
+router.get('/unreal/fids', async (req: Request, res: Response) => {
+  service.getUnrealBuildingsFidData(req, res);
 });
 
-router.get('/unreal/buildings', async (req: Request, res: Response) => {
-  service.getUnrealBuildingsData(req, res);
-});
-
-router.get('/unreal/buildings/:fid', async (req: Request, res: Response) => {
-  service.getUnrealBuildingDataByFid(req, res);
-});
+router.get(
+  '/unreal/buildings/:fid',
+  async (req: Request, res: Response) => {
+    service.getUnrealBuildingDataByFid(req, res);
+  }
+);
 
 export default router;
