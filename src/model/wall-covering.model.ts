@@ -29,7 +29,7 @@ WallCovering.init(
   {
     sequelize,
     modelName: 'WallCovering',
-    tableName: 'wall_coverings',
+    tableName: 'wall_covering',
   }
 );
 

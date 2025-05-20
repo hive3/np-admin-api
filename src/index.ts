@@ -1,4 +1,6 @@
-import express from 'express';
+import 'dotenv/config';
+import express, { json, urlencoded } from 'express';
+
 import buildingRouter from './controller/building.router';
 import openingRouter from './controller/opening.router';
 import architectonicAdequacyRouter from './controller/architectonic-adequacy.router';
@@ -11,12 +13,26 @@ import wallCoveringRouter from './controller/wall-covering.router';
 import structuralSystemRouter from './controller/structural-system.router';
 import useTypeRouter from './controller/use-type.router';
 
-const cors = require('cors'); 
-const app = express();
-const port = 3000;
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('./config/swagger/swagger-output.json');
 
-app.use(cors({ exposedHeaders: ['Content-Length', 'Content-Range', 'X-Content-Range'], }));
-app.use(express.json());
+const cors = require('cors');
+const app = express();
+const { API_PORT = 3000, SWAGGER_DOCS = '/api-docs' } = {
+  ...process.env,
+};
+
+app.use(
+  cors({
+    exposedHeaders: [
+      'Content-Length',
+      'Content-Range',
+      'X-Content-Range',
+    ],
+  })
+);
+app.use(json());
+app.use(urlencoded({ extended: true }));
 app.use(buildingRouter);
 app.use(openingRouter);
 app.use(architectonicAdequacyRouter);
@@ -29,6 +45,12 @@ app.use(wallCoveringRouter);
 app.use(structuralSystemRouter);
 app.use(useTypeRouter);
 
-app.listen(port, async () => {
-  console.log(`Server is running on port ${port}`);
+/* Swagger Docs */
+app.use(SWAGGER_DOCS, swaggerUi.serve, swaggerUi.setup(swaggerFile));
+
+app.listen(API_PORT, async () => {
+  console.log(
+    `API documentation: http://0.0.0.0:${API_PORT}${SWAGGER_DOCS}`
+  );
+  console.log(`Server is running on port ${API_PORT}`);
 });

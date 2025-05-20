@@ -61,19 +61,9 @@ Building.init(
     sequelize,
     indexes: [{ unique: true, fields: ['fid', 'buildingId'] }],
     modelName: 'Building',
-    tableName: 'buildings',
+    tableName: 'building',
   }
 );
-
-Opening.hasOne(Building, { sourceKey: 'id' });
-StructuralSystem.hasOne(Building, { sourceKey: 'id' });
-WallCovering.hasOne(Building, { sourceKey: 'id' });
-RoofCovering.hasOne(Building, { sourceKey: 'id' });
-UseType.hasOne(Building, { sourceKey: 'id' });
-CurrentState.hasOne(Building, { sourceKey: 'id' });
-ConservationLevel.hasOne(Building, { sourceKey: 'id' });
-ArchitectonicAdequacy.hasOne(Building, { sourceKey: 'id' });
-FacadeTypology.hasOne(Building, { sourceKey: 'id' });
 
 Building.belongsTo(Opening);
 Building.belongsTo(StructuralSystem);
@@ -85,10 +75,24 @@ Building.belongsTo(ConservationLevel);
 Building.belongsTo(ArchitectonicAdequacy);
 Building.belongsTo(FacadeTypology);
 
-Intervention.belongsToMany(Building, { through: BuildingIntervention, constraints: false, foreignKeyConstraint: false });
-Building.belongsToMany(Intervention, { through: BuildingIntervention, sourceKey:'buildingId', foreignKey: 'BuildingId', onUpdate: 'CASCADE', onDelete: 'CASCADE', hooks: true, foreignKeyConstraint: false,  constraints: false });
-Intervention.hasMany(BuildingIntervention);
-Building.hasMany(BuildingIntervention);
+Intervention.belongsToMany(Building, {
+  through: BuildingIntervention,
+  constraints: false,
+  foreignKeyConstraint: false,
+});
+
+Building.belongsToMany(Intervention, {
+  through: BuildingIntervention,
+  sourceKey: 'id',
+  foreignKey: 'BuildingId',
+  onUpdate: 'CASCADE',
+  onDelete: 'CASCADE',
+  hooks: true,
+  foreignKeyConstraint: false,
+  constraints: false,
+});
+
+Intervention.hasOne(BuildingIntervention);
 BuildingIntervention.belongsTo(Building);
 BuildingIntervention.belongsTo(Intervention);
 

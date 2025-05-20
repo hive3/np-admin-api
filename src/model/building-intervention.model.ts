@@ -3,7 +3,7 @@ import sequelize from '../config/sequelize';
 
 class BuildingIntervention extends Model {
   InterventionId!: number;
-  BuildingId!: string;
+  BuildingId!: number;
 }
 
 BuildingIntervention.init(
@@ -11,7 +11,7 @@ BuildingIntervention.init(
   {
     sequelize,
     modelName: 'BuildingIntervention',
-    tableName: 'building_interventions',
+    tableName: 'building_intervention',
   }
 );
 

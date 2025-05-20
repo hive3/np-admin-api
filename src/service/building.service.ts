@@ -130,14 +130,14 @@ class BuildingService {
           await BuildingIntervention.findAll({
             where: {
               BuildingId: {
-                [Op.eq]: buildingId,
+                [Op.eq]: id,
               },
             },
             include: { all: true },
           });
         if (buildingInterventions) {
           await BuildingIntervention.destroy({
-            where: { BuildingId: buildingId },
+            where: { BuildingId: id },
           });
         }
         const records = this.getBuildingInterventions(

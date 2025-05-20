@@ -29,7 +29,7 @@ StructuralSystem.init(
   {
     sequelize,
     modelName: 'StructuralSystem',
-    tableName: 'structural_systems',
+    tableName: 'structural_system',
   }
 );
 

@@ -29,7 +29,7 @@ RoofCovering.init(
   {
     sequelize,
     modelName: 'RoofCovering',
-    tableName: 'roof_coverings',
+    tableName: 'roof_covering',
   }
 );
 

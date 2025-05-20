@@ -1,0 +1,2878 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "NP-ADMIN-API",
+    "description": "NP Admin API to handle Building related operations",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://0.0.0.0:3000/"
+    }
+  ],
+  "paths": {
+    "/architectonic-adequacies": {
+      "get": {
+        "tags": [
+          "Architectonic Adequacies"
+        ],
+        "summary": "Gets all Architectonic Adequacies",
+        "description": "Endpoint to get all existent Architectonic Adequacies.",
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArchitectonicAdequacy"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArchitectonicAdequacy"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Architectonic Adequacies not found."
+          },
+          "500": {
+            "description": "Failed to retrieve Architectonic Adequacies."
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Architectonic Adequacies"
+        ],
+        "summary": "Creates a new Architectonic Adequacy",
+        "description": "Endpoint to create a new Architectonic Adequacy.",
+        "responses": {
+          "201": {
+            "description": "Architectonic Adequacy created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArchitectonicAdequacy"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArchitectonicAdequacy"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to create Architectonic Adequacy"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArchitectonicAdequacy"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/architectonic-adequacies/{id}": {
+      "get": {
+        "tags": [
+          "Architectonic Adequacies"
+        ],
+        "summary": "Gets a specific Architectonic Adequacy",
+        "description": "Endpoint to get a specific Architectonic Adequacy by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Architectonic Adequacy ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Architectonic Adequacy found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArchitectonicAdequacy"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArchitectonicAdequacy"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Architectonic Adequacy not found."
+          },
+          "500": {
+            "description": "Failed to retrieve Architectonic Adequacy."
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Architectonic Adequacies"
+        ],
+        "summary": "Updates an existent Architectonic Adequacy",
+        "description": "Endpoint to update a Architectonic Adequacy.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Architectonic Adequacies ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Architectonic Adequacies updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArchitectonicAdequacy"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArchitectonicAdequacy"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Architectonic Adequacy not found or update failed"
+          },
+          "500": {
+            "description": "Failed to update Architectonic Adequacy"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArchitectonicAdequacy"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Architectonic Adequacies"
+        ],
+        "summary": "Deletes a Architectonic Adequacy",
+        "description": "Deletes a Architectonic Adequacy by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Architectonic Adequacy ID."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content."
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Architectonic Adequacy not found or deletion failed."
+          },
+          "500": {
+            "description": "Failed to delete Architectonic Adequacy."
+          }
+        }
+      }
+    },
+    "/buildings": {
+      "get": {
+        "tags": [
+          "Buildings"
+        ],
+        "summary": "Gets all buildings",
+        "description": "Endpoint to get all existent buildings.",
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Building"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Building"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Buildings not found."
+          },
+          "500": {
+            "description": "Failed to retrieve buildings."
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Buildings"
+        ],
+        "summary": "Creates a new building",
+        "description": "Endpoint to create a new building.",
+        "responses": {
+          "201": {
+            "description": "Building created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Building"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Building"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to create building"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BuildingDTO"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/buildings/{id}": {
+      "get": {
+        "tags": [
+          "Buildings"
+        ],
+        "summary": "Gets a specific building",
+        "description": "Endpoint to get a specific building by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Building ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Building found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Building"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Building"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Building not found."
+          },
+          "500": {
+            "description": "Failed to retrieve building."
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Buildings"
+        ],
+        "summary": "Updates an existent building",
+        "description": "Endpoint to update a building.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Building ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Building updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Building"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Building"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Building not found or update failed"
+          },
+          "500": {
+            "description": "Failed to update building"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BuildingDTO"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Buildings"
+        ],
+        "summary": "Deletes a building",
+        "description": "Deletes a building by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Building ID."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content."
+          },
+          "404": {
+            "description": "Building not found or deletion failed."
+          },
+          "500": {
+            "description": "Failed to delete building."
+          }
+        }
+      }
+    },
+    "/unreal/buildings": {
+      "get": {
+        "tags": [
+          "Unreal"
+        ],
+        "summary": "Gets all Unreal buildings",
+        "description": "Endpoint to get all existent Unreal buildings that contains fid.",
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UnrealBuilding"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UnrealBuilding"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Buildings not found."
+          },
+          "500": {
+            "description": "Failed to retrieve buildings."
+          }
+        }
+      }
+    },
+    "/unreal/fids": {
+      "get": {
+        "tags": [
+          "Unreal"
+        ],
+        "summary": "Gets all the fids of the existent buildings",
+        "description": "Endpoint to get all the fids of the existent buildings.",
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "example": [
+                    123
+                  ],
+                  "items": {
+                    "type": "number"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "example": [
+                    123
+                  ],
+                  "items": {
+                    "type": "number"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Unreal Building not found."
+          },
+          "500": {
+            "description": "Failed to retrieve Unreal building"
+          }
+        }
+      }
+    },
+    "/unreal/buildings/{fid}": {
+      "get": {
+        "tags": [
+          "Unreal"
+        ],
+        "summary": "Gets a specific building by fid",
+        "description": "Endpoint to get a specific building by their fid.",
+        "parameters": [
+          {
+            "name": "fid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Building fid."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Building found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnrealBuilding"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnrealBuilding"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Building unreal not found"
+          },
+          "500": {
+            "description": "Failed to retrieve building unreal"
+          }
+        }
+      }
+    },
+    "/conservation-levels": {
+      "get": {
+        "tags": [
+          "Conservation Levels"
+        ],
+        "summary": "Gets all Conservation Levels",
+        "description": "Endpoint to get all existent Conservation Levels.",
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ConservationLevel"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ConservationLevel"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Conservation Level not found."
+          },
+          "500": {
+            "description": "Failed to retrieve Conservation Level."
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Conservation Levels"
+        ],
+        "summary": "Creates a new Conservation Level",
+        "description": "Endpoint to create a new Conservation Level.",
+        "responses": {
+          "201": {
+            "description": "Architectonic Adequacy created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConservationLevel"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConservationLevel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to create Conservation Level"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConservationLevel"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/conservation-levels/{id}": {
+      "get": {
+        "tags": [
+          "Conservation Levels"
+        ],
+        "summary": "Gets a specific Conservation Level",
+        "description": "Endpoint to get a specific Conservation Level by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Conservation Level ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Conservation Level found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConservationLevel"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConservationLevel"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Conservation Level not found."
+          },
+          "500": {
+            "description": "Failed to retrieve Conservation Level."
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Conservation Levels"
+        ],
+        "summary": "Updates an existent Conservation Level",
+        "description": "Endpoint to update a Conservation Level.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Conservation Level ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Conservation Level updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConservationLevel"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConservationLevel"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Conservation Level not found or update failed"
+          },
+          "500": {
+            "description": "Failed to update Conservation Level"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConservationLevel"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Conservation Levels"
+        ],
+        "summary": "Deletes a Conservation Level",
+        "description": "Deletes a Conservation Level by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Conservation Level ID."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content."
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Conservation Level not found or deletion failed."
+          },
+          "500": {
+            "description": "Failed to delete Conservation Level."
+          }
+        }
+      }
+    },
+    "/current-states": {
+      "get": {
+        "tags": [
+          "Current States"
+        ],
+        "summary": "Gets all Current States",
+        "description": "Endpoint to get all existent Current States.",
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CurrentState"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CurrentState"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Current States not found."
+          },
+          "500": {
+            "description": "Failed to retrieve Current States."
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Current States"
+        ],
+        "summary": "Creates a new Current State",
+        "description": "Endpoint to create a new Current State.",
+        "responses": {
+          "201": {
+            "description": "Current State created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentState"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentState"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to create Current State"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CurrentState"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/current-states/{id}": {
+      "get": {
+        "tags": [
+          "Current States"
+        ],
+        "summary": "Gets a specific Current State",
+        "description": "Endpoint to get a specific Current State by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Current State ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current State found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentState"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentState"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Current State not found."
+          },
+          "500": {
+            "description": "Failed to retrieve Current State."
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Current States"
+        ],
+        "summary": "Updates an existent Current State",
+        "description": "Endpoint to update a Current State.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Current States ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current State updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentState"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentState"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Current State not found or update failed"
+          },
+          "500": {
+            "description": "Failed to update Current State"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CurrentState"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Current States"
+        ],
+        "summary": "Deletes a Current State",
+        "description": "Deletes a Current State by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Current State ID."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content."
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Current State not found or deletion failed."
+          },
+          "500": {
+            "description": "Failed to delete Current State."
+          }
+        }
+      }
+    },
+    "/facade-typologies": {
+      "get": {
+        "tags": [
+          "Facade Typologies"
+        ],
+        "summary": "Gets all Facade Typologies",
+        "description": "Endpoint to get all existent Facade Typologies.",
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FacadeTypology"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FacadeTypology"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Facade Typologies not found."
+          },
+          "500": {
+            "description": "Failed to retrieve Facade Typologies."
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Facade Typologies"
+        ],
+        "summary": "Creates a new Facade Typology",
+        "description": "Endpoint to create a new Facade Typology.",
+        "responses": {
+          "201": {
+            "description": "Facade Typology created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FacadeTypology"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/FacadeTypology"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to create Facade Typology"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FacadeTypology"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/facade-typologies/{id}": {
+      "get": {
+        "tags": [
+          "Facade Typologies"
+        ],
+        "summary": "Gets a specific Facade Typology",
+        "description": "Endpoint to get a specific Facade Typology by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Facade Typology ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current State found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FacadeTypology"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/FacadeTypology"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Facade Typology not found."
+          },
+          "500": {
+            "description": "Failed to retrieve Facade Typology."
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Facade Typologies"
+        ],
+        "summary": "Updates an existent Facade Typology",
+        "description": "Endpoint to update a Facade Typology.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Facade Typology ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Facade Typology updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FacadeTypology"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/FacadeTypology"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Facade Typology not found or update failed"
+          },
+          "500": {
+            "description": "Failed to update Facade Typology"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FacadeTypology"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Facade Typologies"
+        ],
+        "summary": "Deletes a Facade Typology",
+        "description": "Deletes a Facade Typology by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Facade Typology ID."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content."
+          },
+          "404": {
+            "description": "Facade Typology not found or deletion failed."
+          },
+          "500": {
+            "description": "Failed to delete Facade Typology."
+          }
+        }
+      }
+    },
+    "/interventions": {
+      "get": {
+        "tags": [
+          "Interventions"
+        ],
+        "summary": "Gets all Interventions",
+        "description": "Endpoint to get all existent Interventions.",
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Intervention"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Intervention"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Interventions not found."
+          },
+          "500": {
+            "description": "Failed to retrieve Interventions."
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Interventions"
+        ],
+        "summary": "Creates a new Intervention",
+        "description": "Endpoint to create a new Intervention.",
+        "responses": {
+          "201": {
+            "description": "Intervention created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Intervention"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Intervention"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to create Intervention"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Intervention"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/interventions/{id}": {
+      "get": {
+        "tags": [
+          "Interventions"
+        ],
+        "summary": "Gets a specific Intervention",
+        "description": "Endpoint to get a specific Intervention by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Intervention ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Intervention found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Intervention"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Intervention"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Intervention not found."
+          },
+          "500": {
+            "description": "Failed to retrieve Intervention."
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Interventions"
+        ],
+        "summary": "Updates an existent Intervention",
+        "description": "Endpoint to update a Intervention.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Intervention ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Intervention updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Intervention"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Intervention"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Intervention not found or update failed"
+          },
+          "500": {
+            "description": "Failed to update Intervention"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Intervention"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Interventions"
+        ],
+        "summary": "Deletes a Intervention",
+        "description": "Deletes a Intervention by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Intervention ID."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content."
+          },
+          "404": {
+            "description": "Intervention not found or deletion failed."
+          },
+          "500": {
+            "description": "Failed to delete Intervention."
+          }
+        }
+      }
+    },
+    "/openings": {
+      "get": {
+        "tags": [
+          "Openings"
+        ],
+        "summary": "Gets all Openings",
+        "description": "Endpoint to get all existent Openings.",
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Opening"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Opening"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Openings not found."
+          },
+          "500": {
+            "description": "Failed to retrieve Openings."
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Openings"
+        ],
+        "summary": "Creates a new Opening",
+        "description": "Endpoint to create a new Opening.",
+        "responses": {
+          "201": {
+            "description": "Opening created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Opening"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Opening"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to create Opening"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Opening"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/openings/{id}": {
+      "get": {
+        "tags": [
+          "Openings"
+        ],
+        "summary": "Gets a specific Opening",
+        "description": "Endpoint to get a specific Opening by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Opening ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Opening found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Opening"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Opening"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Openings not found."
+          },
+          "500": {
+            "description": "Failed to retrieve Opening."
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Openings"
+        ],
+        "summary": "Updates an existent Opening",
+        "description": "Endpoint to update a Opening.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Opening ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Opening updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Opening"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Opening"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Opening not found or update failed"
+          },
+          "500": {
+            "description": "Failed to update Opening"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Opening"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Openings"
+        ],
+        "summary": "Deletes a Opening",
+        "description": "Deletes a Opening by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Opening ID."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content."
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Opening not found or deletion failed."
+          },
+          "500": {
+            "description": "Failed to delete Opening."
+          }
+        }
+      }
+    },
+    "/roof-coverings": {
+      "get": {
+        "tags": [
+          "Roof Coverings"
+        ],
+        "summary": "Gets all Roof Coverings",
+        "description": "Endpoint to get all existent Roof Coverings.",
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RoofCovering"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RoofCovering"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Roof Coverings not found."
+          },
+          "500": {
+            "description": "Failed to retrieve Roof Coverings."
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Roof Coverings"
+        ],
+        "summary": "Creates a new Roof Covering",
+        "description": "Endpoint to create a new Roof Covering.",
+        "responses": {
+          "201": {
+            "description": "Roof Covering created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoofCovering"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoofCovering"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to create Roof Covering"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RoofCovering"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/roof-coverings/{id}": {
+      "get": {
+        "tags": [
+          "Roof Coverings"
+        ],
+        "summary": "Gets a specific Roof Covering",
+        "description": "Endpoint to get a specific Roof Covering by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Roof Covering ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Roof Covering found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoofCovering"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoofCovering"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Roof Covering not found."
+          },
+          "500": {
+            "description": "Failed to retrieve Roof Covering."
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Roof Coverings"
+        ],
+        "summary": "Updates an existent Roof Covering",
+        "description": "Endpoint to update a Roof Covering.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Roof Covering ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Roof Covering updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoofCovering"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoofCovering"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Roof Covering not found or update failed"
+          },
+          "500": {
+            "description": "Failed to update Roof Covering"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RoofCovering"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Roof Coverings"
+        ],
+        "summary": "Deletes a Roof Covering",
+        "description": "Deletes a Roof Covering by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Roof Covering ID."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content."
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Roof Covering not found or deletion failed."
+          },
+          "500": {
+            "description": "Failed to delete Roof Covering."
+          }
+        }
+      }
+    },
+    "/structural-systems": {
+      "get": {
+        "tags": [
+          "Structural Systems"
+        ],
+        "summary": "Gets all Structural Systems",
+        "description": "Endpoint to get all existent Structural Systems.",
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StructuralSystem"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StructuralSystem"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Structural Systems not found."
+          },
+          "500": {
+            "description": "Failed to retrieve Structural Systems."
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Structural Systems"
+        ],
+        "summary": "Creates a new Structural System",
+        "description": "Endpoint to create a new Structural System.",
+        "responses": {
+          "201": {
+            "description": "Structural System created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StructuralSystem"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/StructuralSystem"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to create Structural System"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StructuralSystem"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/structural-systems/{id}": {
+      "get": {
+        "tags": [
+          "Structural Systems"
+        ],
+        "summary": "Gets a specific Structural System",
+        "description": "Endpoint to get a specific Structural System by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Structural System ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Structural System found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StructuralSystem"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/StructuralSystem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Structural System not found."
+          },
+          "500": {
+            "description": "Failed to retrieve Structural System."
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Structural Systems"
+        ],
+        "summary": "Updates an existent Structural System",
+        "description": "Endpoint to update a Structural System.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Structural System ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Structural System updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StructuralSystem"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/StructuralSystem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Structural System not found or update failed"
+          },
+          "500": {
+            "description": "Failed to update Structural System"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StructuralSystem"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Structural Systems"
+        ],
+        "summary": "Deletes a Structural System",
+        "description": "Deletes a Structural System by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Structural System ID."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content."
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Structural System not found or deletion failed."
+          },
+          "500": {
+            "description": "Failed to delete Structural System."
+          }
+        }
+      }
+    },
+    "/use-types": {
+      "get": {
+        "tags": [
+          "Use Types"
+        ],
+        "summary": "Gets all Use Types",
+        "description": "Endpoint to get all existent Use Types.",
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UseType"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UseType"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Use Types not found."
+          },
+          "500": {
+            "description": "Failed to retrieve Use Types."
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Use Types"
+        ],
+        "summary": "Creates a new Use Type",
+        "description": "Endpoint to create a new Use Type.",
+        "responses": {
+          "201": {
+            "description": "Use Type created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UseType"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/UseType"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to create Use Type"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UseType"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/use-types/{id}": {
+      "get": {
+        "tags": [
+          "Use Types"
+        ],
+        "summary": "Gets a specific Use Type",
+        "description": "Endpoint to get a specific Use Type by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Use Type ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Use Type found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UseType"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/UseType"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Use Type not found."
+          },
+          "500": {
+            "description": "Failed to retrieve Use Type."
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Use Types"
+        ],
+        "summary": "Updates an existent Use Type",
+        "description": "Endpoint to update an Use Type.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Use Type ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Use Type updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UseType"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/UseType"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Use Type not found or update failed"
+          },
+          "500": {
+            "description": "Failed to update Use Type"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UseType"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Use Types"
+        ],
+        "summary": "Deletes an Use Type",
+        "description": "Deletes an Use Type by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Use Type ID."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content."
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Use Type not found or deletion failed."
+          },
+          "500": {
+            "description": "Failed to delete Use Type."
+          }
+        }
+      }
+    },
+    "/wall-coverings": {
+      "get": {
+        "tags": [
+          "Wall Coverings"
+        ],
+        "summary": "Gets all Wall Coverings",
+        "description": "Endpoint to get all existent Wall Coverings.",
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WallCovering"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WallCovering"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Wall Coverings not found."
+          },
+          "500": {
+            "description": "Failed to retrieve Wall Coverings."
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Wall Coverings"
+        ],
+        "summary": "Creates a new Wall Covering",
+        "description": "Endpoint to create a new Wall Covering.",
+        "responses": {
+          "201": {
+            "description": "Wall Covering created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WallCovering"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/WallCovering"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to create Wall Covering"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WallCovering"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/wall-coverings/{id}": {
+      "get": {
+        "tags": [
+          "Wall Coverings"
+        ],
+        "summary": "Gets a specific Roof Covering",
+        "description": "Endpoint to get a specific Roof Covering by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Roof Covering ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Roof Covering found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoofCovering"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoofCovering"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Roof Covering not found."
+          },
+          "500": {
+            "description": "Failed to retrieve Roof Covering."
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Wall Coverings"
+        ],
+        "summary": "Updates an existent Wall Covering",
+        "description": "Endpoint to update a Wall Covering.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Wall Covering ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Wall Covering updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WallCovering"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/WallCovering"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Wall Covering not found or update failed"
+          },
+          "500": {
+            "description": "Failed to update Wall Covering"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WallCovering"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Wall Coverings"
+        ],
+        "summary": "Deletes a Wall Covering",
+        "description": "Deletes a Wall Covering by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Wall Covering ID."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content."
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Wall Covering not found or deletion failed."
+          },
+          "500": {
+            "description": "Failed to delete Wall Covering."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Intervention": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "description": {
+            "type": "string",
+            "example": "Openings in non-traditional materials"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-05-20T16:10:46.610Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-05-20T16:10:46.610Z"
+          }
+        }
+      },
+      "Opening": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 2
+          },
+          "description": {
+            "type": "string",
+            "example": "Modern Materials"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-05-20T16:10:46.610Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-05-20T16:10:46.610Z"
+          }
+        }
+      },
+      "RoofCovering": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "description": {
+            "type": "string",
+            "example": "Ceramic"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-05-20T16:10:46.610Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-05-20T16:10:46.610Z"
+          }
+        }
+      },
+      "UseType": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 2
+          },
+          "description": {
+            "type": "string",
+            "example": "Residential"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-05-20T16:10:46.610Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-05-20T16:10:46.610Z"
+          }
+        }
+      },
+      "CurrentState": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 3
+          },
+          "description": {
+            "type": "string",
+            "example": "In Use"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-05-20T16:10:46.610Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-05-20T16:10:46.610Z"
+          }
+        }
+      },
+      "ConservationLevel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "description": {
+            "type": "string",
+            "example": "Excellent (100-75%)"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-05-20T16:10:46.610Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-05-20T16:10:46.610Z"
+          }
+        }
+      },
+      "ArchitectonicAdequacy": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 5
+          },
+          "description": {
+            "type": "string",
+            "example": "Vernacular with Dissonances"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-05-20T16:10:46.610Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-05-20T16:10:46.610Z"
+          }
+        }
+      },
+      "FacadeTypology": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 7
+          },
+          "description": {
+            "type": "string",
+            "example": "n. Not identified"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-05-20T16:10:46.610Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-05-20T16:10:46.610Z"
+          }
+        }
+      },
+      "StructuralSystem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 2
+          },
+          "description": {
+            "type": "string",
+            "example": "Modern and Traditional"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-05-20T16:10:46.610Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-05-20T16:10:46.610Z"
+          }
+        }
+      },
+      "WallCovering": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 2
+          },
+          "description": {
+            "type": "string",
+            "example": "Granite"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-05-20T16:10:46.610Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-05-20T16:10:46.610Z"
+          }
+        }
+      },
+      "Building": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 123
+          },
+          "fid": {
+            "type": "integer",
+            "example": 1850
+          },
+          "buildingId": {
+            "type": "string",
+            "example": "PN_Z01_001"
+          },
+          "floors": {
+            "type": "integer",
+            "example": 1
+          },
+          "OpeningId": {
+            "type": "integer",
+            "example": 1
+          },
+          "StructuralSystemId": {
+            "type": "integer",
+            "example": 1
+          },
+          "WallCoveringId": {
+            "type": "integer",
+            "example": 1
+          },
+          "RoofCoveringId": {
+            "type": "integer",
+            "example": 1
+          },
+          "UseTypeId": {
+            "type": "integer",
+            "example": 1
+          },
+          "CurrentStateId": {
+            "type": "integer",
+            "example": 1
+          },
+          "ConservationLevelId": {
+            "type": "integer",
+            "example": 1
+          },
+          "ArchitectonicAdequacyId": {
+            "type": "integer",
+            "example": 1
+          },
+          "FacadeTypologyId": {
+            "type": "integer",
+            "example": 1
+          },
+          "Opening": {
+            "$href": "#/components/@schemas/Opening"
+          },
+          "StructuralSystem": {
+            "$href": "#/components/@schemas/StructuralSystem"
+          },
+          "WallCovering": {
+            "$href": "#/components/@schemas/WallCovering"
+          },
+          "RoofCovering": {
+            "$href": "#/components/@schemas/RoofCovering"
+          },
+          "UseType": {
+            "$href": "#/components/@schemas/UseType"
+          },
+          "CurrentState": {
+            "$href": "#/components/@schemas/CurrentState"
+          },
+          "ConservationLevel": {
+            "$href": "#/components/@schemas/ConservationLevel"
+          },
+          "ArchitectonicAdequacy": {
+            "$href": "#/components/@schemas/ArchitectonicAdequacy"
+          },
+          "FacadeTypology": {
+            "$href": "#/components/@schemas/FacadeTypology"
+          },
+          "Interventions": {
+            "type": "array",
+            "items": {
+              "$href": "#/components/@schemas/Intervention"
+            }
+          }
+        }
+      },
+      "BuildingDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 123
+          },
+          "fid": {
+            "type": "integer",
+            "example": 1850
+          },
+          "$buildingId": {
+            "type": "string",
+            "example": "PN_Z01_001"
+          },
+          "floors": {
+            "type": "integer",
+            "example": 1
+          },
+          "$OpeningId": {
+            "type": "integer",
+            "example": 1
+          },
+          "$StructuralSystemId": {
+            "type": "integer",
+            "example": 1
+          },
+          "$WallCoveringId": {
+            "type": "integer",
+            "example": 1
+          },
+          "$RoofCoveringId": {
+            "type": "integer",
+            "example": 1
+          },
+          "$UseTypeId": {
+            "type": "integer",
+            "example": 1
+          },
+          "$CurrentStateId": {
+            "type": "integer",
+            "example": 1
+          },
+          "$ConservationLevelId": {
+            "type": "integer",
+            "example": 1
+          },
+          "$ArchitectonicAdequacyId": {
+            "type": "integer",
+            "example": 1
+          },
+          "FacadeTypologyId": {
+            "type": "integer",
+            "example": 1
+          },
+          "interventions": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "example": [
+              1,
+              4,
+              6
+            ]
+          }
+        }
+      },
+      "UnrealBuilding": {
+        "type": "object",
+        "properties": {
+          "fid": {
+            "type": "integer",
+            "example": 1850
+          },
+          "buildingId": {
+            "type": "string",
+            "example": "PN_Z01_001"
+          },
+          "floors": {
+            "type": "integer",
+            "example": 1
+          },
+          "opening": {
+            "type": "string",
+            "example": "Modern Materials"
+          },
+          "structuralSystem": {
+            "type": "string",
+            "example": "Modern and Traditional"
+          },
+          "wallCovering": {
+            "type": "string",
+            "example": "Granite"
+          },
+          "roofCovering": {
+            "type": "string",
+            "example": "Ceramic"
+          },
+          "useType": {
+            "type": "string",
+            "example": "Residential"
+          },
+          "currentState": {
+            "type": "string",
+            "example": "In Use"
+          },
+          "conservationLevel": {
+            "type": "string",
+            "example": "Excellent (100-75%)"
+          },
+          "architectonicAdequacy": {
+            "type": "string",
+            "example": "Vernacular with Dissonances"
+          },
+          "facadeTypology": {
+            "type": "string",
+            "example": "n. Not identified"
+          },
+          "interventions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Openings in non-traditional materials",
+              "Non-traditional roof tiles",
+              "Joint filling with Portland cement-based mortar",
+              "Concrete elements added",
+              "Volumes reconstructed or plasters added"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

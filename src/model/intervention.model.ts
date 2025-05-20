@@ -29,7 +29,7 @@ Intervention.init(
   {
     sequelize,
     modelName: 'Intervention',
-    tableName: 'interventions',
+    tableName: 'intervention',
   }
 );
 

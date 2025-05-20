@@ -29,7 +29,7 @@ Opening.init(
   {
     sequelize,
     modelName: 'Opening',
-    tableName: 'openings',
+    tableName: 'opening',
   }
 );
 
