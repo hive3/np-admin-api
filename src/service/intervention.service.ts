@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import Intervention from '../model/intervention.model';
-import Building from '../model/building.model';
 import { Op } from 'sequelize';
 import BuildingIntervention from '../model/building-intervention.model';
 
