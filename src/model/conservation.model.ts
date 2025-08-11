@@ -28,8 +28,8 @@ Conservation.init(
   },
   {
     sequelize,
-    modelName: 'Conversation',
-    tableName: 'conversation',
+    modelName: 'Conservation',
+    tableName: 'conservation',
   }
 );
 
