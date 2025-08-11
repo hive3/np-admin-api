@@ -766,6 +766,210 @@
         }
       }
     },
+    "/conservations": {
+      "get": {
+        "tags": [
+          "Conservations"
+        ],
+        "summary": "Gets all Conservations",
+        "description": "Endpoint to get all existent Conservations.",
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Conservations"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Conservations"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Conservations not found."
+          },
+          "500": {
+            "description": "Failed to retrieve Conservations."
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Conservations"
+        ],
+        "summary": "Creates a new Conservation",
+        "description": "Endpoint to create a new Conservation.",
+        "responses": {
+          "201": {
+            "description": "Conservation created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conservation"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conservation"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to create Conservation"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Conservation"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/conservations/{id}": {
+      "get": {
+        "tags": [
+          "Conservations"
+        ],
+        "summary": "Gets a specific Conservation",
+        "description": "Endpoint to get a specific Conservation by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Conservation ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Conservation found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conservation"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conservation"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Conservation not found."
+          },
+          "500": {
+            "description": "Failed to retrieve Conservation."
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Conservations"
+        ],
+        "summary": "Updates an existent Conservation",
+        "description": "Endpoint to update a Conservation.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Conservation ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Conservation updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conservation"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conservation"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Conservation not found or update failed"
+          },
+          "500": {
+            "description": "Failed to update Conservation"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Conservation"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Conservations"
+        ],
+        "summary": "Deletes a Conservation",
+        "description": "Deletes a Conservation by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Conservation ID."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content."
+          },
+          "404": {
+            "description": "Conservation not found or deletion failed."
+          },
+          "500": {
+            "description": "Failed to delete Conservation."
+          }
+        }
+      }
+    },
     "/current-states": {
       "get": {
         "tags": [
@@ -2442,6 +2646,29 @@
           }
         }
       },
+      "Conservation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "description": {
+            "type": "string",
+            "example": "Conservation should focus on preventing deterioration rather than substituting existing components"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-05-20T16:10:46.610Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-05-20T16:10:46.610Z"
+          }
+        }
+      },
       "Opening": {
         "type": "object",
         "properties": {
@@ -2668,6 +2895,14 @@
             "type": "integer",
             "example": 1
           },
+          "isCulturalHeritage": {
+            "type": "boolean",
+            "example": false
+          },
+          "isCulturallySignificantArea": {
+            "type": "boolean",
+            "example": false
+          },
           "OpeningId": {
             "type": "integer",
             "example": 1
@@ -2736,6 +2971,12 @@
             "items": {
               "$href": "#/components/@schemas/Intervention"
             }
+          },
+          "Conservations": {
+            "type": "array",
+            "items": {
+              "$href": "#/components/@schemas/Conservation"
+            }
           }
         }
       },
@@ -2757,6 +2998,14 @@
           "floors": {
             "type": "integer",
             "example": 1
+          },
+          "isCulturalHeritage": {
+            "type": "boolean",
+            "example": false
+          },
+          "isCulturallySignificantArea": {
+            "type": "boolean",
+            "example": false
           },
           "$OpeningId": {
             "type": "integer",
@@ -2804,6 +3053,17 @@
               4,
               6
             ]
+          },
+          "conservations": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "example": [
+              1,
+              4,
+              6
+            ]
           }
         }
       },
@@ -2821,6 +3081,14 @@
           "floors": {
             "type": "integer",
             "example": 1
+          },
+          "culturalHeritage": {
+            "type": "string",
+            "example": "no"
+          },
+          "culturallySignificantArea": {
+            "type": "string",
+            "example": "yes"
           },
           "opening": {
             "type": "string",
@@ -2869,6 +3137,17 @@
               "Joint filling with Portland cement-based mortar",
               "Concrete elements added",
               "Volumes reconstructed or plasters added"
+            ]
+          },
+          "conservations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Substitute nontraditional tiles with stone slate tiles",
+              "Substitute nontraditional doors and windows with wooden ones",
+              "Preserve existing vernacular components"
             ]
           }
         }

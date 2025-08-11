@@ -37,6 +37,26 @@ const doc = {
           },
         },
       },
+      Conservation: {
+        type: 'object',
+        properties: {
+          id: { type: 'integer', example: 1 },
+          description: {
+            type: 'string',
+            example: 'Conservation should focus on preventing deterioration rather than substituting existing components',
+          },
+          createdAt: {
+            type: 'string',
+            format: 'date-time',
+            example: '2025-05-20T16:10:46.610Z',
+          },
+          updatedAt: {
+            type: 'string',
+            format: 'date-time',
+            example: '2025-05-20T16:10:46.610Z',
+          },
+        },
+      },
       Opening: {
         type: 'object',
         properties: {
@@ -224,6 +244,11 @@ const doc = {
           fid: { type: 'integer', example: 1850 },
           buildingId: { type: 'string', example: 'PN_Z01_001' },
           floors: { type: 'integer', example: 1 },
+          isCulturalHeritage: { type: 'boolean', example: false },
+          isCulturallySignificantArea: {
+            type: 'boolean',
+            example: false,
+          },
           OpeningId: { type: 'integer', example: 1 },
           StructuralSystemId: { type: 'integer', example: 1 },
           WallCoveringId: { type: 'integer', example: 1 },
@@ -266,6 +291,12 @@ const doc = {
               $href: '#/components/@schemas/Intervention',
             },
           },
+          Conservations: {
+            type: 'array',
+            items: {
+              $href: '#/components/@schemas/Conservation',
+            },
+          },
         },
       },
       BuildingDTO: {
@@ -275,6 +306,11 @@ const doc = {
           fid: { type: 'integer', example: 1850 },
           $buildingId: { type: 'string', example: 'PN_Z01_001' },
           floors: { type: 'integer', example: 1 },
+          isCulturalHeritage: { type: 'boolean', example: false },
+          isCulturallySignificantArea: {
+            type: 'boolean',
+            example: false,
+          },
           $OpeningId: { type: 'integer', example: 1 },
           $StructuralSystemId: { type: 'integer', example: 1 },
           $WallCoveringId: { type: 'integer', example: 1 },
@@ -291,6 +327,13 @@ const doc = {
             },
             example: [1, 4, 6],
           },
+          conservations: {
+            type: 'array',
+            items: {
+              type: 'integer',
+            },
+            example: [1, 4, 6],
+          },
         },
       },
       UnrealBuilding: {
@@ -299,6 +342,11 @@ const doc = {
           fid: { type: 'integer', example: 1850 },
           buildingId: { type: 'string', example: 'PN_Z01_001' },
           floors: { type: 'integer', example: 1 },
+          culturalHeritage: { type: 'string', example: 'no' },
+          culturallySignificantArea: {
+            type: 'string',
+            example: 'yes',
+          },
           opening: { type: 'string', example: 'Modern Materials' },
           structuralSystem: {
             type: 'string',
@@ -331,6 +379,17 @@ const doc = {
               'Joint filling with Portland cement-based mortar',
               'Concrete elements added',
               'Volumes reconstructed or plasters added',
+            ],
+          },
+          conservations: {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
+            example: [
+              'Substitute nontraditional tiles with stone slate tiles',
+              'Substitute nontraditional doors and windows with wooden ones',
+              'Preserve existing vernacular components',
             ],
           },
         },

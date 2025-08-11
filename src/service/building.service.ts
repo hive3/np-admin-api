@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
+import { Op, WhereOptions } from 'sequelize';
 import Building from '../model/building.model';
 import BuildingIntervention from '../model/building-intervention.model';
-import { Op, WhereOptions } from 'sequelize';
+import BuildingConservation from '../model/building-conservation.model';
 
 class BuildingService {
   async createBuilding(req: Request, res: Response) {
@@ -22,6 +23,7 @@ class BuildingService {
         isCulturalHeritage,
         isCulturallySignificantArea,
         interventions,
+        conservations,
       } = req.body;
 
       const building = await Building.create({
@@ -47,6 +49,14 @@ class BuildingService {
           interventions
         );
         await BuildingIntervention.bulkCreate(records);
+      }
+
+      if (conservations) {
+        const records = this.getBuildingConservations(
+          buildingId,
+          conservations
+        );
+        await BuildingConservation.bulkCreate(records);
       }
 
       const result = await Building.findByPk(building.id, {
@@ -112,6 +122,7 @@ class BuildingService {
         ArchitectonicAdequacyId,
         FacadeTypologyId,
         interventions,
+        conservations,
       } = req.body;
 
       const [updatedRows] = await Building.update(
@@ -148,11 +159,33 @@ class BuildingService {
             where: { BuildingId: id },
           });
         }
-        const records = this.getBuildingInterventions(
+        const recordsInterventions = this.getBuildingInterventions(
           buildingId,
           interventions
         );
-        await BuildingIntervention.bulkCreate(records);
+        await BuildingIntervention.bulkCreate(recordsInterventions);
+      }
+
+      if (conservations) {
+        const buildingConservations =
+          await BuildingConservation.findAll({
+            where: {
+              BuildingId: {
+                [Op.eq]: id,
+              },
+            },
+            include: { all: true },
+          });
+        if (buildingConservations) {
+          await BuildingConservation.destroy({
+            where: { BuildingId: id },
+          });
+        }
+        const recordsConservation = this.getBuildingConservations(
+          buildingId,
+          conservations
+        );
+        await BuildingConservation.bulkCreate(recordsConservation);
       }
 
       if (updatedRows > 0) {
@@ -222,7 +255,9 @@ class BuildingService {
       (res, p) => {
         const param = req.query[p];
         if (param) {
-          res[p] = { [Op.is]: req.query[p] === 'true' ? true : false };
+          res[p] = {
+            [Op.is]: req.query[p] === 'true' ? true : false,
+          };
         }
         return res;
       },
@@ -243,6 +278,7 @@ class BuildingService {
       );
       if (buildings.length > 0) {
         const interventions = this.filterInterventions(req);
+        const conservations = this.filterConservations(req);
         const response = buildings
           .filter(
             (b) =>
@@ -251,6 +287,15 @@ class BuildingService {
                 b.Interventions.length === 0) ||
               b.Interventions.some((i) =>
                 interventions.includes(i.id.toString())
+              )
+          )
+          .filter(
+            (b) =>
+              !conservations ||
+              (conservations.length === 0 &&
+                b.Conservations.length === 0) ||
+              b.Conservations.some((i) =>
+                conservations.includes(i.id.toString())
               )
           )
           .map((b) => this.parseBuildingToUnrealData(b));
@@ -273,6 +318,7 @@ class BuildingService {
       );
       if (buildings.length > 0) {
         const interventions = this.filterInterventions(req);
+        const conservations = this.filterConservations(req);
         const response = buildings
           .filter(
             (b) =>
@@ -281,6 +327,15 @@ class BuildingService {
                 b.Interventions.length === 0) ||
               b.Interventions.some((i) =>
                 interventions.includes(i.id.toString())
+              )
+          )
+          .filter(
+            (b) =>
+              !conservations ||
+              (conservations.length === 0 &&
+                b.Conservations.length === 0) ||
+              b.Conservations.some((i) =>
+                conservations.includes(i.id.toString())
               )
           )
           .map((b) => b.fid);
@@ -380,6 +435,36 @@ class BuildingService {
       : undefined;
   }
 
+  getBuildingConservations(
+    buildingId: string,
+    conservations: number[]
+  ) {
+    return conservations.map((i: number) => ({
+      BuildingId: buildingId,
+      ConservationId: i,
+    }));
+  }
+
+  conservationsHasChanged(
+    buildingConservations: BuildingConservation[],
+    conservations: number[]
+  ) {
+    return (
+      buildingConservations &&
+      buildingConservations.filter(
+        (bc) => !conservations.includes(bc.ConservationId)
+      ).length > 0
+    );
+  }
+
+  filterConservations(req: Request) {
+    return req.query.Conservations
+      ? [...req.query.Conservations.toString().split(',')]
+      : req.query.Conservations === ''
+      ? []
+      : undefined;
+  }
+
   parseBuildingToUnrealData(building: Building) {
     const {
       fid,
@@ -397,6 +482,7 @@ class BuildingService {
       ArchitectonicAdequacy,
       FacadeTypology,
       Interventions = [],
+      Conservations = [],
     } = building;
     return {
       fid,
@@ -419,6 +505,10 @@ class BuildingService {
         Interventions.length > 0
           ? Interventions.map((i) => i.description)
           : Interventions,
+      conservations:
+        Conservations.length > 0
+          ? Conservations.map((c) => c.description)
+          : Conservations,
     };
   }
 }

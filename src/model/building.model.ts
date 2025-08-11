@@ -11,6 +11,8 @@ import ArchitectonicAdequacy from './architectonic-adequacy.model';
 import FacadeTypology from './facade-typology.model';
 import Intervention from './intervention.model';
 import BuildingIntervention from './building-intervention.model';
+import Conservation from './conservation.model';
+import BuildingConservation from './building-conservation.model';
 
 class Building extends Model {
   public id!: number;
@@ -29,6 +31,7 @@ class Building extends Model {
   public ArchitectonicAdequacy!: ArchitectonicAdequacy;
   public FacadeTypology!: FacadeTypology;
   public Interventions!: Intervention[];
+  public Conservations!: Conservation[];
 }
 
 Building.init(
@@ -105,5 +108,26 @@ Building.belongsToMany(Intervention, {
 Intervention.hasOne(BuildingIntervention);
 BuildingIntervention.belongsTo(Building);
 BuildingIntervention.belongsTo(Intervention);
+
+Conservation.belongsToMany(Building, {
+  through: BuildingConservation,
+  constraints: false,
+  foreignKeyConstraint: false,
+});
+
+Building.belongsToMany(Conservation, {
+  through: BuildingConservation,
+  sourceKey: 'id',
+  foreignKey: 'BuildingId',
+  onUpdate: 'CASCADE',
+  onDelete: 'CASCADE',
+  hooks: true,
+  foreignKeyConstraint: false,
+  constraints: false,
+});
+
+Conservation.hasOne(BuildingConservation);
+BuildingConservation.belongsTo(Building);
+BuildingConservation.belongsTo(Conservation);
 
 export default Building;
