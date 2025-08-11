@@ -222,7 +222,7 @@ class BuildingService {
       (res, p) => {
         const param = req.query[p];
         if (param) {
-          res[p] = { [Op.is]: Boolean(param) };
+          res[p] = { [Op.is]: req.query[p] === 'true' ? true : false };
         }
         return res;
       },
@@ -402,8 +402,10 @@ class BuildingService {
       fid,
       buildingId,
       floors,
-      culturalHeritage: isCulturalHeritage? 'yes' : 'no',
-      culturallySignificantArea: isCulturallySignificantArea ? 'yes' : 'no',
+      culturalHeritage: isCulturalHeritage ? 'yes' : 'no',
+      culturallySignificantArea: isCulturallySignificantArea
+        ? 'yes'
+        : 'no',
       opening: Opening?.description,
       structuralSystem: StructuralSystem?.description,
       wallCovering: WallCovering?.description,
