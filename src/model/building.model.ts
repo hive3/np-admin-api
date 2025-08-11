@@ -17,6 +17,8 @@ class Building extends Model {
   public fid!: number;
   public buildingId!: string;
   public floors!: number;
+  public isCulturalHeritage!: boolean;
+  public isCulturallySignificantArea!: boolean;
   public Opening!: Opening;
   public StructuralSystem!: StructuralSystem;
   public WallCovering!: WallCovering;
@@ -47,6 +49,14 @@ Building.init(
     floors: {
       type: DataTypes.INTEGER,
       allowNull: true,
+    },
+    isCulturalHeritage: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+    isCulturallySignificantArea: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
     createdAt: {
       type: DataTypes.DATE,

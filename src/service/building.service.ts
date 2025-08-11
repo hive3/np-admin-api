@@ -19,6 +19,8 @@ class BuildingService {
         buildingId,
         fid,
         floors,
+        isCulturalHeritage,
+        isCulturallySignificantArea,
         interventions,
       } = req.body;
 
@@ -26,6 +28,8 @@ class BuildingService {
         fid,
         buildingId,
         floors,
+        isCulturalHeritage,
+        isCulturallySignificantArea,
         StructuralSystemId,
         OpeningId,
         WallCoveringId,
@@ -95,6 +99,8 @@ class BuildingService {
       const {
         fid,
         floors,
+        isCulturalHeritage,
+        isCulturallySignificantArea,
         buildingId,
         StructuralSystemId,
         OpeningId,
@@ -112,6 +118,8 @@ class BuildingService {
         {
           fid,
           floors,
+          isCulturalHeritage,
+          isCulturallySignificantArea,
           StructuralSystemId,
           OpeningId,
           WallCoveringId,
@@ -190,11 +198,16 @@ class BuildingService {
       'FacadeTypologyId',
     ];
 
+    const queryBoolParams = [
+      'isCulturalHeritage',
+      'isCulturallySignificantArea',
+    ];
+
     const whereInit: WhereOptions<any> = {
       fid: { [Op.not]: null },
     };
 
-    const where: WhereOptions<any> = queryParams.reduce(
+    const whereIn: WhereOptions<any> = queryParams.reduce(
       (res, p) => {
         const param = req.query[p];
         if (param) {
@@ -203,6 +216,17 @@ class BuildingService {
         return res;
       },
       { ...whereInit }
+    );
+
+    const where: WhereOptions<any> = queryBoolParams.reduce(
+      (res, p) => {
+        const param = req.query[p];
+        if (param) {
+          res[p] = { [Op.is]: Boolean(param) };
+        }
+        return res;
+      },
+      { ...whereIn }
     );
 
     return await Building.findAll({
@@ -361,6 +385,8 @@ class BuildingService {
       fid,
       buildingId,
       floors,
+      isCulturalHeritage,
+      isCulturallySignificantArea,
       Opening,
       StructuralSystem,
       WallCovering,
@@ -376,6 +402,8 @@ class BuildingService {
       fid,
       buildingId,
       floors,
+      culturalHeritage: isCulturalHeritage? 'yes' : 'no',
+      culturallySignificantArea: isCulturallySignificantArea ? 'yes' : 'no',
       opening: Opening?.description,
       structuralSystem: StructuralSystem?.description,
       wallCovering: WallCovering?.description,
