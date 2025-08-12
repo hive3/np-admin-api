@@ -20,6 +20,7 @@ class BuildingService {
         buildingId,
         fid,
         floors,
+        index,
         isCulturalHeritage,
         isCulturallySignificantArea,
         interventions,
@@ -30,6 +31,7 @@ class BuildingService {
         fid,
         buildingId,
         floors,
+        index,
         isCulturalHeritage,
         isCulturallySignificantArea,
         StructuralSystemId,
@@ -109,6 +111,7 @@ class BuildingService {
       const {
         fid,
         floors,
+        index,
         isCulturalHeritage,
         isCulturallySignificantArea,
         StructuralSystemId,
@@ -128,6 +131,7 @@ class BuildingService {
         {
           fid,
           floors,
+          index,
           isCulturalHeritage,
           isCulturallySignificantArea,
           StructuralSystemId,
@@ -250,6 +254,7 @@ class BuildingService {
   async getBuildingsByFilters(req: Request, res: Response) {
     const queryParams = [
       'floors',
+      'index',
       'OpeningId',
       'StructuralSystemId',
       'WallCoveringId',
@@ -500,6 +505,7 @@ class BuildingService {
       fid,
       buildingId,
       floors,
+      index,
       isCulturalHeritage,
       isCulturallySignificantArea,
       Opening,
@@ -518,6 +524,7 @@ class BuildingService {
       fid,
       buildingId,
       floors,
+      index,
       culturalHeritage: isCulturalHeritage ? 'yes' : 'no',
       culturallySignificantArea: isCulturallySignificantArea
         ? 'yes'

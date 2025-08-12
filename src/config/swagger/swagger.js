@@ -244,6 +244,7 @@ const doc = {
           fid: { type: 'integer', example: 1850 },
           buildingId: { type: 'string', example: 'PN_Z01_001' },
           floors: { type: 'integer', example: 1 },
+          index: { type: 'number', example: 0.2 },
           isCulturalHeritage: { type: 'boolean', example: false },
           isCulturallySignificantArea: {
             type: 'boolean',
@@ -306,6 +307,7 @@ const doc = {
           fid: { type: 'integer', example: 1850 },
           $buildingId: { type: 'string', example: 'PN_Z01_001' },
           floors: { type: 'integer', example: 1 },
+          index: { type: 'number', example: 0.2 },
           isCulturalHeritage: { type: 'boolean', example: false },
           isCulturallySignificantArea: {
             type: 'boolean',
@@ -342,6 +344,7 @@ const doc = {
           fid: { type: 'integer', example: 1850 },
           buildingId: { type: 'string', example: 'PN_Z01_001' },
           floors: { type: 'integer', example: 1 },
+          index: { type: 'number', example: 0.2 },
           culturalHeritage: { type: 'string', example: 'no' },
           culturallySignificantArea: {
             type: 'string',

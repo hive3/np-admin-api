@@ -19,6 +19,7 @@ class Building extends Model {
   public fid!: number;
   public buildingId!: string;
   public floors!: number;
+  public index!: number;
   public isCulturalHeritage!: boolean;
   public isCulturallySignificantArea!: boolean;
   public Opening!: Opening;
@@ -51,6 +52,10 @@ Building.init(
     },
     floors: {
       type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    index: {
+      type: DataTypes.DECIMAL,
       allowNull: true,
     },
     isCulturalHeritage: {
