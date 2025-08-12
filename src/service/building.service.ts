@@ -45,7 +45,7 @@ class BuildingService {
 
       if (interventions) {
         const records = this.getBuildingInterventions(
-          buildingId,
+          building.id,
           interventions
         );
         await BuildingIntervention.bulkCreate(records);
@@ -53,7 +53,7 @@ class BuildingService {
 
       if (conservations) {
         const records = this.getBuildingConservations(
-          buildingId,
+          building.id,
           conservations
         );
         await BuildingConservation.bulkCreate(records);
@@ -406,7 +406,7 @@ class BuildingService {
   }
 
   getBuildingInterventions(
-    buildingId: string,
+    buildingId: number,
     interventions: number[]
   ) {
     return interventions.map((i: number) => ({
@@ -436,7 +436,7 @@ class BuildingService {
   }
 
   getBuildingConservations(
-    buildingId: string,
+    buildingId: number,
     conservations: number[]
   ) {
     return conservations.map((i: number) => ({
