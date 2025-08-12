@@ -111,7 +111,6 @@ class BuildingService {
         floors,
         isCulturalHeritage,
         isCulturallySignificantArea,
-        buildingId,
         StructuralSystemId,
         OpeningId,
         WallCoveringId,
@@ -204,6 +203,37 @@ class BuildingService {
   async deleteBuilding(req: Request, res: Response) {
     try {
       const id = parseInt(req.params.id, 10);
+
+      const buildingInterventions =
+        await BuildingIntervention.findAll({
+          where: {
+            BuildingId: {
+              [Op.eq]: id,
+            },
+          },
+          include: { all: true },
+        });
+      if (buildingInterventions) {
+        await BuildingIntervention.destroy({
+          where: { BuildingId: id },
+        });
+      }
+
+      const buildingConservations =
+        await BuildingConservation.findAll({
+          where: {
+            BuildingId: {
+              [Op.eq]: id,
+            },
+          },
+          include: { all: true },
+        });
+      if (buildingConservations) {
+        await BuildingConservation.destroy({
+          where: { BuildingId: id },
+        });
+      }
+
       const deletedRows = await Building.destroy({ where: { id } });
       if (deletedRows > 0) {
         res.status(204).end();
