@@ -88,11 +88,11 @@ Building.belongsTo(ConservationLevel);
 Building.belongsTo(ArchitectonicAdequacy);
 Building.belongsTo(FacadeTypology);
 
-Intervention.belongsToMany(Building, {
-  through: BuildingIntervention,
-  constraints: false,
-  foreignKeyConstraint: false,
-});
+//Intervention.belongsToMany(Building, {
+//  through: BuildingIntervention,
+//  constraints: false,
+//  foreignKeyConstraint: false,
+//});
 
 Building.belongsToMany(Intervention, {
   through: BuildingIntervention,
@@ -105,15 +105,15 @@ Building.belongsToMany(Intervention, {
   constraints: false,
 });
 
-Intervention.hasOne(BuildingIntervention);
+//Intervention.hasOne(BuildingIntervention);
 BuildingIntervention.belongsTo(Building);
 BuildingIntervention.belongsTo(Intervention);
 
-Conservation.belongsToMany(Building, {
-  through: BuildingConservation,
-  constraints: false,
-  foreignKeyConstraint: false,
-});
+//Conservation.belongsToMany(Building, {
+//  through: BuildingConservation,
+//  constraints: false,
+//  foreignKeyConstraint: false,
+//});
 
 Building.belongsToMany(Conservation, {
   through: BuildingConservation,
@@ -126,7 +126,7 @@ Building.belongsToMany(Conservation, {
   constraints: false,
 });
 
-Conservation.hasOne(BuildingConservation);
+//Conservation.hasOne(BuildingConservation);
 BuildingConservation.belongsTo(Building);
 BuildingConservation.belongsTo(Conservation);
 

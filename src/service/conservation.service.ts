@@ -18,7 +18,7 @@ class ConservationService {
     } catch (error) {
       res
         .status(500)
-        .json({ error: 'Conservation to retrieve opening' });
+        .json({ error: 'Error to retrieve conservation' });
     }
   }
 
