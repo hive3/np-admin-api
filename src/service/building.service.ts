@@ -160,7 +160,7 @@ class BuildingService {
           });
         }
         const recordsInterventions = this.getBuildingInterventions(
-          buildingId,
+          id,
           interventions
         );
         await BuildingIntervention.bulkCreate(recordsInterventions);
@@ -182,7 +182,7 @@ class BuildingService {
           });
         }
         const recordsConservation = this.getBuildingConservations(
-          buildingId,
+          id,
           conservations
         );
         await BuildingConservation.bulkCreate(recordsConservation);
